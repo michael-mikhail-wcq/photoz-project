@@ -1,6 +1,6 @@
-package com.springdemo.photozclone;
+package com.springdemo.photozclone.service;
 
-import org.springframework.stereotype.Component;
+import com.springdemo.photozclone.model.Photo;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -11,10 +11,9 @@ import java.util.UUID;
 //@Component
 @Service
 public class PhotozService {
-   private Map<String, Photo> db = new HashMap<>();
+   private final Map<String, Photo> db = new HashMap<>();
 
    public PhotozService() {
-       db.put("1", new Photo("1", "hello.jpg"));
    }
 
    public Collection<Photo> get() {
@@ -23,17 +22,19 @@ public class PhotozService {
     public Photo get(String id) {
        return db.get(id);
     }
+
     public Photo remove(String id) {
        return db.remove(id);
     }
-    public void save(String fileName, byte[] data) {
+    public Photo save(String fileName, String contentType, byte[] data) {
+
         Photo photo = new Photo();
+        photo.setContentType(contentType);
         photo.setId(UUID.randomUUID().toString());
         photo.setFileName(fileName);
         photo.setData(data);
+        System.out.println(photo);
         db.put(photo.getId(), photo);
         return photo;
-
-
     }
 }
